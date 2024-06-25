@@ -1,33 +1,41 @@
-﻿namespace Kdevaulo.WheelOfFortune.WheelBehaviour
-{
-    public class WheelController : IClearable
-    {
-        private readonly IUserActionsProvider _actionsProvider;
+﻿using UnityEngine;
 
+namespace Kdevaulo.WheelOfFortune.WheelBehaviour
+{
+    public class WheelController : ITimerTickHandler
+    {
         private readonly WheelView _view;
-        private readonly WheelSettings _settings;
         private readonly NumbersGenerator _generator;
 
-        public WheelController(WheelView view, WheelSettings settings, IUserActionsProvider actionsProvider)
+        private readonly int _slotsCount;
+        private readonly int _maxGenerationIndex;
+
+        private int _currentGenerationIndex;
+
+        public WheelController(WheelView view, Settings settings)
         {
             _view = view;
-            _settings = settings;
-            _actionsProvider = actionsProvider;
-
             _generator = new NumbersGenerator();
 
-            _actionsProvider.ButtonClicked += HandleButtonClicked;
+            _currentGenerationIndex = 0;
+            _maxGenerationIndex = settings.CooldownTickTimes;
+            _slotsCount = _view.GetSlotsCount();
 
-            _generator.Initialize(_settings.MinValue, _settings.Step, _view.GetSlotsCount());
+            int numbersCount =
+                Mathf.CeilToInt((settings.MaxValue - settings.MinValue) / (float) settings.Step);
+
+            _generator.Initialize(settings.MinValue, settings.Step, numbersCount);
         }
 
-        void IClearable.Clear()
+        void ITimerTickHandler.HandleTick()
         {
-            _actionsProvider.ButtonClicked -= HandleButtonClicked;
-        }
+            if (++_currentGenerationIndex >= _maxGenerationIndex)
+            {
+                return;
+            }
 
-        private void HandleButtonClicked()
-        {
+            int[] values = _generator.GetRandomValues(_slotsCount);
+            _view.SetValues(values);
         }
     }
 }

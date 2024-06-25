@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Assertions;
 
-namespace Kdevaulo.WheelOfFortune.WheelBehaviour
+namespace Kdevaulo.WheelOfFortune
 {
     public class NumbersGenerator
     {
