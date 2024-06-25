@@ -1,6 +1,4 @@
-﻿using Kdevaulo.WheelOfFortune.WheelBehaviour;
-
-namespace Kdevaulo.WheelOfFortune.UIBehaviour
+﻿namespace Kdevaulo.WheelOfFortune.UIBehaviour
 {
     public class ButtonController : ITimerTickHandler, ITimerFinishHandler
     {

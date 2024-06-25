@@ -3,7 +3,7 @@ using System.Threading;
 
 using Cysharp.Threading.Tasks;
 
-namespace Kdevaulo.WheelOfFortune
+namespace Kdevaulo.WheelOfFortune.TimerBehaviour
 {
     /// <summary>
     /// Timer based on UniTask WaitForSeconds

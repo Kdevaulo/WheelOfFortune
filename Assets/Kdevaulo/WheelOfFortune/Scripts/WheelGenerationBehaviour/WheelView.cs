@@ -2,9 +2,9 @@
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-namespace Kdevaulo.WheelOfFortune.WheelBehaviour
+namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
 {
-    [AddComponentMenu(nameof(WheelView) + " in " + nameof(WheelBehaviour))]
+    [AddComponentMenu(nameof(WheelView) + " in " + nameof(WheelGenerationBehaviour))]
     public class WheelView : MonoBehaviour
     {
         [SerializeField] private Transform _slotsContainer;
@@ -14,14 +14,17 @@ namespace Kdevaulo.WheelOfFortune.WheelBehaviour
 
         private int _slotsCount;
 
-        public int GetSlotsCount()
+        public SlotView[] GetSlotViews()
         {
-            _slotViews = _slotsContainer.GetComponentsInChildren<SlotView>();
+            if (_slotsCount == 0)
+            {
+                _slotViews = _slotsContainer.GetComponentsInChildren<SlotView>();
+                _slotsCount = _slotViews.Length;
+            }
 
-            _slotsCount = _slotViews.Length;
             Assert.IsFalse(_slotsCount == 0);
 
-            return _slotsCount;
+            return _slotViews;
         }
 
         public void SetValues(int[] values)

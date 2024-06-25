@@ -1,6 +1,4 @@
-﻿using Kdevaulo.WheelOfFortune.WheelBehaviour;
-
-namespace Kdevaulo.WheelOfFortune
+﻿namespace Kdevaulo.WheelOfFortune.TimerBehaviour
 {
     public class TimerController
     {

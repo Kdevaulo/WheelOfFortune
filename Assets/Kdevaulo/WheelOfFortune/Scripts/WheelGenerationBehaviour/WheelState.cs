@@ -1,4 +1,4 @@
-﻿namespace Kdevaulo.WheelOfFortune.WheelBehaviour
+﻿namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
 {
     public enum WheelState
     {

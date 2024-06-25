@@ -1,7 +1,7 @@
-﻿using System;
-
+﻿using Kdevaulo.WheelOfFortune.RewardChooseBehaviour;
+using Kdevaulo.WheelOfFortune.TimerBehaviour;
 using Kdevaulo.WheelOfFortune.UIBehaviour;
-using Kdevaulo.WheelOfFortune.WheelBehaviour;
+using Kdevaulo.WheelOfFortune.WheelGenerationBehaviour;
 
 using UnityEngine;
 
@@ -10,21 +10,24 @@ namespace Kdevaulo.WheelOfFortune
     [AddComponentMenu(nameof(EntryPoint) + " in " + nameof(WheelOfFortune))]
     public class EntryPoint : MonoBehaviour
     {
-        [SerializeField] private WheelView _wheelView;
         [SerializeField] private Settings _settings;
+        [SerializeField] private WheelView _wheelView;
         [SerializeField] private ButtonView _buttonView;
 
         private WheelController _wheelController;
         private TimerController _timerController;
         private ButtonController _buttonController;
+        private RewardChoosingController _rewardChoosingController;
 
         private IClearable[] _clearables;
 
         private void Awake()
         {
+            var slotsHandler = new RewardModel(_wheelView);
             _timerController = new TimerController(_settings);
-            _wheelController = new WheelController(_wheelView, _settings);
             _buttonController = new ButtonController(_buttonView, _settings);
+            _wheelController = new WheelController(_wheelView, _settings, slotsHandler);
+            _rewardChoosingController = new RewardChoosingController(_settings, slotsHandler);
 
             _timerController.SetTickHandlers(_wheelController, _buttonController);
             _timerController.SetFinishHandlers(_buttonController);

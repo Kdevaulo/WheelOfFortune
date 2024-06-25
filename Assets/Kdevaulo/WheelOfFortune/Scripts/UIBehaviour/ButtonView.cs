@@ -10,6 +10,8 @@ namespace Kdevaulo.WheelOfFortune.UIBehaviour
     [AddComponentMenu(nameof(ButtonView) + " in " + nameof(UIBehaviour))]
     public class ButtonView : MonoBehaviour, IUserActionsProvider
     {
+        public event Action ButtonClicked = delegate { };
+
         [SerializeField] private Button _button;
         [SerializeField] private GameObject _appealTextContainer;
 
@@ -25,8 +27,6 @@ namespace Kdevaulo.WheelOfFortune.UIBehaviour
         {
             _button.onClick.RemoveListener(HandleButtonClick);
         }
-
-        public event Action ButtonClicked = delegate { };
 
         public void SetTimerText(string text)
         {

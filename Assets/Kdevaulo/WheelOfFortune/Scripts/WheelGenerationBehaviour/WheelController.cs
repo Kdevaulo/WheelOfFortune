@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 using UnityEngine;
 
-namespace Kdevaulo.WheelOfFortune.WheelBehaviour
+namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
 {
     public class WheelController : ITimerTickHandler
     {
         private readonly WheelView _view;
         private readonly NumbersGenerator _generator;
+        private readonly RewardModel _rewardModel;
 
         private readonly Reward[] _rewards;
 
@@ -19,14 +19,15 @@ namespace Kdevaulo.WheelOfFortune.WheelBehaviour
 
         private string _lastRewardId = string.Empty;
 
-        public WheelController(WheelView view, Settings settings)
+        public WheelController(WheelView view, Settings settings, RewardModel rewardModel)
         {
             _view = view;
+            _rewardModel = rewardModel;
             _generator = new NumbersGenerator();
 
-            _maxGenerationIndex = settings.CooldownTickTimes;
-            _slotsCount = _view.GetSlotsCount();
+            _slotsCount = _rewardModel.SlotsCount;
             _rewards = settings.Rewards;
+            _maxGenerationIndex = settings.CooldownTickTimes;
 
             int numbersCount =
                 Mathf.CeilToInt((settings.MaxValue - settings.MinValue) / (float) settings.Step);
@@ -47,7 +48,8 @@ namespace Kdevaulo.WheelOfFortune.WheelBehaviour
 
         private void SetValues()
         {
-            int[] values = _generator.GetRandomValues(_slotsCount);
+            int[] values = _generator.GenerateRandomValues(_slotsCount);
+            _rewardModel.SetValues(values);
             _view.SetValues(values);
         }
 
@@ -57,6 +59,7 @@ namespace Kdevaulo.WheelOfFortune.WheelBehaviour
             int index = Random.Range(0, targetRewards.Length);
             var targetReward = targetRewards[index];
 
+            _rewardModel.SetReward(targetReward.Id);
             _lastRewardId = targetReward.Id;
             _view.SetRewardSprite(targetReward.Sprite);
         }
