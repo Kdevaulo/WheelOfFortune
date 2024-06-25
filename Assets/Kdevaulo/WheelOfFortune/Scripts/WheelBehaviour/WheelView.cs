@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace Kdevaulo.WheelOfFortune.WheelBehaviour
 {
@@ -7,6 +8,7 @@ namespace Kdevaulo.WheelOfFortune.WheelBehaviour
     public class WheelView : MonoBehaviour
     {
         [SerializeField] private Transform _slotsContainer;
+        [SerializeField] private Image _rewardImage;
 
         private SlotView[] _slotViews;
 
@@ -30,6 +32,11 @@ namespace Kdevaulo.WheelOfFortune.WheelBehaviour
             {
                 _slotViews[i].SetText(values[i].ToString());
             }
+        }
+
+        public void SetRewardSprite(Sprite sprite)
+        {
+            _rewardImage.sprite = sprite;
         }
     }
 }

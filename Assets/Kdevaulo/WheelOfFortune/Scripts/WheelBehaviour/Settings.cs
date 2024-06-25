@@ -11,6 +11,7 @@ namespace Kdevaulo.WheelOfFortune.WheelBehaviour
         [field: SerializeField] public int Step { get; private set; } = 5;
         [field: SerializeField] public int CooldownTickTimes { get; private set; } = 10;
         [field: SerializeField] public float GenerationDelayInSeconds { get; private set; } = 1;
+        [field: SerializeField] public Reward[] Rewards { get; private set; }
 
         [field: Header("Rotation")]
         [field: SerializeField] public int RotationDurationInSeconds { get; private set; } = 5;
