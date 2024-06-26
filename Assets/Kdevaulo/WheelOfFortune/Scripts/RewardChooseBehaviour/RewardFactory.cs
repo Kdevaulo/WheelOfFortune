@@ -4,8 +4,8 @@ namespace Kdevaulo.WheelOfFortune.RewardChooseBehaviour
 {
     public class RewardFactory
     {
-        private readonly RewardView _view;
         private readonly Transform _parent;
+        private readonly RewardView _view;
 
         private Sprite _sprite;
 
@@ -15,17 +15,17 @@ namespace Kdevaulo.WheelOfFortune.RewardChooseBehaviour
             _parent = parent;
         }
 
-        public void Initialize(Sprite sprite)
-        {
-            _sprite = sprite;
-        }
-
         public RewardView Create()
         {
             var view = Object.Instantiate(_view, _parent);
             view.SetSprite(_sprite);
 
             return view;
+        }
+
+        public void Initialize(Sprite sprite)
+        {
+            _sprite = sprite;
         }
     }
 }

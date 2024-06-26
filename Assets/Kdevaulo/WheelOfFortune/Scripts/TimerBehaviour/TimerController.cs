@@ -1,34 +1,29 @@
 ﻿namespace Kdevaulo.WheelOfFortune.TimerBehaviour
 {
-    public class TimerController
+    public class TimerController : BaseStateHandler
     {
-        private readonly Settings _settings;
-        private readonly Timer _timer;
-
-
         private readonly float _generationDelay;
         private readonly float _cooldownDuration;
 
-        private ITimerTickHandler[] _tickHandlers;
-        private ITimerFinishHandler[] _finishHandlers;
+        private readonly Timer _timer;
 
+        private ITimerFinishHandler[] _finishHandlers;
+        private ITimerTickHandler[] _tickHandlers;
 
         public TimerController(Settings settings)
         {
-            _settings = settings;
-
-            int generationAttempts = _settings.CooldownTickTimes;
-            _generationDelay = _settings.GenerationDelayInSeconds;
-            _cooldownDuration = (generationAttempts - 1) * _generationDelay;
+            int generationAttempts = settings.CooldownTickTimes;
+            _generationDelay = settings.GenerationDelayInSeconds;
+            _cooldownDuration = generationAttempts * _generationDelay;
 
             _timer = new Timer();
             _timer.Ticked += HandleTimerTick;
             _timer.Finished += HandleTimerFinished;
         }
 
-        public void SetTickHandlers(params ITimerTickHandler[] timerTickHandlers)
+        public override void HandleCooldownState()
         {
-            _tickHandlers = timerTickHandlers;
+            _timer.Start(_cooldownDuration, _generationDelay);
         }
 
         public void SetFinishHandlers(params ITimerFinishHandler[] timerFinishHandlers)
@@ -36,10 +31,9 @@
             _finishHandlers = timerFinishHandlers;
         }
 
-        public void Start()
+        public void SetTickHandlers(params ITimerTickHandler[] timerTickHandlers)
         {
-            HandleTimerTick();
-            _timer.Start(_cooldownDuration, _generationDelay);
+            _tickHandlers = timerTickHandlers;
         }
 
         private void HandleTimerFinished()
@@ -48,6 +42,8 @@
             {
                 handler.HandleFinish();
             }
+
+            SwitchState(State.Active);
         }
 
         private void HandleTimerTick()

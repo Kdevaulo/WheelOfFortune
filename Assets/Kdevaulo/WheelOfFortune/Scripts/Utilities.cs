@@ -1,24 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
-using Random = UnityEngine.Random;
-
 namespace Kdevaulo.WheelOfFortune
 {
     public static class Utilities
     {
-        public static void Shuffle(this int[] array)
-        {
-            int maxIndex = array.Length - 1;
-
-            for (int i = maxIndex; i >= 0; i--)
-            {
-                int j = Random.Range(0, i + 1);
-
-                (array[i], array[j]) = (array[j], array[i]);
-            }
-        }
-        
         public static int[] DistributeEvenly(int totalValue, int maxItemsCount)
         {
             int[] rewards;
@@ -52,7 +38,7 @@ namespace Kdevaulo.WheelOfFortune
 
             return rewards;
         }
-        
+
         public static Vector2 GenerateRandomPosition(Vector2 center, float minRadius, float maxRadius)
         {
             Assert.IsTrue(minRadius >= 0);
@@ -66,6 +52,18 @@ namespace Kdevaulo.WheelOfFortune
             float y = center.y + radius * Mathf.Sin(angle);
 
             return new Vector2(x, y);
+        }
+
+        public static void Shuffle(this int[] array)
+        {
+            int maxIndex = array.Length - 1;
+
+            for (int i = maxIndex; i >= 0; i--)
+            {
+                int j = Random.Range(0, i + 1);
+
+                (array[i], array[j]) = (array[j], array[i]);
+            }
         }
     }
 }

@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
 {
-    public class WheelController : ITimerTickHandler
+    public class WheelController : BaseStateHandler, ITimerTickHandler
     {
+        private readonly Reward[] _rewards;
+
         private readonly WheelView _view;
         private readonly NumbersGenerator _generator;
         private readonly RewardSlotModel _rewardSlotModel;
 
-        private readonly Reward[] _rewards;
-
         private readonly int _slotsCount;
         private readonly int _maxGenerationIndex;
 
-        private int _currentGenerationIndex = 0;
+        private int _currentGenerationIndex;
 
         private string _lastRewardId = string.Empty;
 
@@ -29,10 +29,7 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
             _rewards = settings.Rewards;
             _maxGenerationIndex = settings.CooldownTickTimes;
 
-            int numbersCount =
-                Mathf.CeilToInt((settings.MaxValue - settings.MinValue) / (float) settings.Step);
-
-            _generator.Initialize(settings.MinValue, settings.Step, numbersCount);
+            _generator.Initialize(settings.MinValue, settings.Step, settings.PossibleNumbersCount);
         }
 
         void ITimerTickHandler.HandleTick()
@@ -46,11 +43,15 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
             SetReward();
         }
 
-        private void SetValues()
+        public override void HandleCooldownState()
         {
-            int[] values = _generator.GenerateRandomValues(_slotsCount);
-            _rewardSlotModel.SetValues(values);
-            _view.SetValues(values);
+            _currentGenerationIndex = 0;
+
+            SetValues();
+            SetReward();
+
+            _view.EnableRewardImage();
+            _view.DisableRewardText();
         }
 
         private void SetReward()
@@ -62,6 +63,13 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
             _rewardSlotModel.SetReward(targetReward);
             _lastRewardId = targetReward.Id;
             _view.SetRewardSprite(targetReward.Sprite);
+        }
+
+        private void SetValues()
+        {
+            int[] values = _generator.GenerateRandomValues(_slotsCount);
+            _rewardSlotModel.SetValues(values);
+            _view.SetValues(values);
         }
     }
 }

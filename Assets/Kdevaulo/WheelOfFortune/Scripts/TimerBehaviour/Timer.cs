@@ -10,8 +10,8 @@ namespace Kdevaulo.WheelOfFortune.TimerBehaviour
     /// </summary>
     public class Timer
     {
-        public event Action Ticked = delegate { };
         public event Action Finished = delegate { };
+        public event Action Ticked = delegate { };
 
         private CancellationTokenSource _cts;
 
@@ -20,17 +20,6 @@ namespace Kdevaulo.WheelOfFortune.TimerBehaviour
             RefreshToken();
 
             HandleTimerAsync(timeInSeconds, tickDelayInSeconds, _cts.Token).Forget();
-        }
-
-        private void RefreshToken()
-        {
-            if (_cts is { IsCancellationRequested: false })
-            {
-                _cts.Cancel();
-                _cts.Dispose();
-            }
-
-            _cts = new CancellationTokenSource();
         }
 
         private async UniTask HandleTimerAsync(float timeInSeconds, float tickDelayInSeconds, CancellationToken token)
@@ -50,6 +39,17 @@ namespace Kdevaulo.WheelOfFortune.TimerBehaviour
             }
 
             Finished.Invoke();
+        }
+
+        private void RefreshToken()
+        {
+            if (_cts is { IsCancellationRequested: false })
+            {
+                _cts.Cancel();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
         }
     }
 }

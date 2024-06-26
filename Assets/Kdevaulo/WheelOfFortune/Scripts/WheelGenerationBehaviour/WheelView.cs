@@ -30,9 +30,9 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
         [SerializeField] private GameObject _rewardImageContainer;
         [SerializeField] private Image _rewardImage;
 
-        private SlotView[] _slotViews;
-
         private int _slotsCount;
+
+        private SlotView[] _slotViews;
 
         public SlotView[] GetSlotViews()
         {

@@ -1,34 +1,25 @@
 ﻿namespace Kdevaulo.WheelOfFortune.UIBehaviour
 {
-    public class ButtonController : ITimerTickHandler, ITimerFinishHandler
+    public class ButtonController : BaseStateHandler, ITimerTickHandler, ITimerFinishHandler
     {
-        private readonly ButtonView _view;
-        private readonly Settings _settings;
-
         private readonly IUserActionsProvider _actionsProvider;
+
+        private readonly Settings _settings;
+        private readonly ButtonView _view;
 
         private int _ticksLeft;
 
-        public ButtonController(ButtonView view, Settings settings, IUserActionsProvider actionsProvider)
+        public ButtonController(ButtonView view, Settings settings)
         {
             _view = view;
             _settings = settings;
-            _actionsProvider = actionsProvider;
-
-            _actionsProvider.ButtonClicked += HandleButtonClick;
         }
 
-        private void HandleButtonClick()
+        void ITimerFinishHandler.HandleFinish()
         {
-            _view.DisableButton();
-        }
-
-        public void Initialize()
-        {
-            _ticksLeft = _settings.CooldownTickTimes - 1;
-            _view.EnableTimerText();
-            _view.DisableAppealText();
-            _view.DisableButton();
+            _view.SetTimerText(string.Empty);
+            _view.DisableTimerText();
+            _view.EnableAppealText();
         }
 
         void ITimerTickHandler.HandleTick()
@@ -37,12 +28,23 @@
             --_ticksLeft;
         }
 
-        void ITimerFinishHandler.HandleFinish()
+        public override void HandleActiveState()
         {
-            _view.SetTimerText(string.Empty);
-            _view.DisableTimerText();
-            _view.EnableAppealText();
             _view.EnableButton();
+        }
+
+        public override void HandleChoosingRewardState()
+        {
+            _view.DisableButton();
+        }
+
+        public override void HandleCooldownState()
+        {
+            _ticksLeft = _settings.CooldownTickTimes - 1;
+            _view.SetTimerText(_settings.CooldownTickTimes.ToString());
+            _view.EnableTimerText();
+            _view.DisableAppealText();
+            _view.DisableButton();
         }
     }
 }

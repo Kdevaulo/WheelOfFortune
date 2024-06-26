@@ -4,8 +4,6 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
 {
     public class NumbersGenerator
     {
-        public int[] CurrentValues { get; private set; }
-
         private int[] _sequence;
 
         public void Initialize(int min, int step, int numbersCount)
@@ -24,14 +22,14 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
 
             _sequence.Shuffle();
 
-            CurrentValues = new int[count];
+            int[] currentValues = new int[count];
 
             for (int i = 0; i < count; i++)
             {
-                CurrentValues[i] = _sequence[i];
+                currentValues[i] = _sequence[i];
             }
 
-            return CurrentValues;
+            return currentValues;
         }
     }
 }

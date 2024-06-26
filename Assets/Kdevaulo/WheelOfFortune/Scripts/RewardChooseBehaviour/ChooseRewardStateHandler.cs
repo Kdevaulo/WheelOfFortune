@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 
 using Cysharp.Threading.Tasks;
@@ -7,44 +6,34 @@ using Cysharp.Threading.Tasks;
 using Kdevaulo.WheelOfFortune.WheelGenerationBehaviour;
 
 using UnityEngine;
-using UnityEngine.Assertions;
-
-using Random = UnityEngine.Random;
 
 namespace Kdevaulo.WheelOfFortune.RewardChooseBehaviour
 {
-    public class RewardChoosingController
+    public class ChooseRewardStateHandler : BaseStateHandler
     {
         private readonly WheelView _view;
         private readonly Settings _settings;
         private readonly RewardFactory _rewardFactory;
         private readonly RewardSlotModel _rewardSlotModel;
 
-        private readonly IUserActionsProvider _actionsProvider;
-
         private Dictionary<RewardView, int> _rewards = new Dictionary<RewardView, int>();
-
-        private CancellationTokenSource _cts;
 
         private int _currentRewardPoints;
 
-        public RewardChoosingController(WheelView view, Settings settings, RewardSlotModel rewardSlotModel,
-            IUserActionsProvider actionsProvider)
+        private CancellationTokenSource _cts;
+
+        public ChooseRewardStateHandler(WheelView view, Settings settings, RewardSlotModel rewardSlotModel)
         {
             _view = view;
             _settings = settings;
             _rewardSlotModel = rewardSlotModel;
-            _actionsProvider = actionsProvider;
 
             _rewardFactory = new RewardFactory(_settings.RewardView, _view.SpawnableRewardsContainer);
-
-            _actionsProvider.ButtonClicked += HandleButtonClick;
         }
 
-        private void HandleButtonClick()
+        public override void HandleChoosingRewardState()
         {
             _currentRewardPoints = 0;
-            _rewards.Clear();
 
             int index = Random.Range(0, _rewardSlotModel.SlotsCount);
             int rewardValue = _rewardSlotModel.GetRewardValue(index);
@@ -57,6 +46,42 @@ namespace Kdevaulo.WheelOfFortune.RewardChooseBehaviour
 
             HandleRewardChooseAsync(targetRotation, index, _view.GetFinishPosition(), rewardValue, _cts.Token)
                 .Forget();
+        }
+
+        private async UniTask AppearItemsAsync(Vector2 targetPosition, CancellationToken token)
+        {
+            float appearDuration = _settings.RewardAppearTimeInSeconds;
+            var radiusInUnits = _settings.RewardRadiusInUnits;
+
+            var operations = new List<UniTask>();
+
+            foreach (var reward in _rewards)
+            {
+                var randomPosition = Utilities.GenerateRandomPosition(targetPosition, radiusInUnits.x, radiusInUnits.y);
+                var operation = reward.Key.AppearAsync(appearDuration, randomPosition, token);
+                operations.Add(operation);
+            }
+
+            await UniTask.WhenAll(operations);
+        }
+
+        private void CreateRewardItems(int rewardValue, int maxRewardsCount, Vector2 position)
+        {
+            int[] rewardsValues = Utilities.DistributeEvenly(rewardValue, maxRewardsCount);
+
+            foreach (int value in rewardsValues)
+            {
+                var view = _rewardFactory.Create();
+                _rewards.Add(view, value);
+                view.SetPosition(position);
+            }
+        }
+
+        private void HandleRewardAddition(int value)
+        {
+            _currentRewardPoints += value;
+
+            _view.SetRewardText(_currentRewardPoints.ToString());
         }
 
         private async UniTask HandleRewardChooseAsync(float targetRotation, int itemIndex, Vector2 finishPosition,
@@ -75,23 +100,9 @@ namespace Kdevaulo.WheelOfFortune.RewardChooseBehaviour
             await AppearItemsAsync(rewardValuePosition, token);
             await MoveToFinishAsync(finishPosition, token);
             await UniTask.WaitForSeconds(_settings.DelayAfterRewardInSeconds, cancellationToken: token);
-        }
+            RemoveItems();
 
-        private async UniTask AppearItemsAsync(Vector2 targetPosition, CancellationToken token)
-        {
-            float appearDuration = _settings.RewardAppearTimeInSeconds;
-            var radiusInUnits = _settings.RewardRadiusInUnits;
-
-            var operations = new List<UniTask>();
-
-            foreach (var reward in _rewards)
-            {
-                var randomPosition = Utilities.GenerateRandomPosition(targetPosition, radiusInUnits.x, radiusInUnits.y);
-                var operation = reward.Key.AppearAsync(appearDuration, randomPosition, token);
-                operations.Add(operation);
-            }
-
-            await UniTask.WhenAll(operations);
+            SwitchState(State.Cooldown);
         }
 
         private async UniTask MoveToFinishAsync(Vector2 targetPosition, CancellationToken token)
@@ -114,25 +125,6 @@ namespace Kdevaulo.WheelOfFortune.RewardChooseBehaviour
             await UniTask.WhenAll(operations);
         }
 
-        private void HandleRewardAddition(int value)
-        {
-            _currentRewardPoints += value;
-
-            _view.SetRewardText(_currentRewardPoints.ToString());
-        }
-
-        private void CreateRewardItems(int rewardValue, int maxRewardsCount, Vector2 position)
-        {
-            int[] rewardsValues = Utilities.DistributeEvenly(rewardValue, maxRewardsCount);
-
-            foreach (int value in rewardsValues)
-            {
-                var view = _rewardFactory.Create();
-                _rewards.Add(view, value);
-                view.SetPosition(position);
-            }
-        }
-
         private void RefreshToken()
         {
             if (_cts is { IsCancellationRequested: false })
@@ -142,6 +134,16 @@ namespace Kdevaulo.WheelOfFortune.RewardChooseBehaviour
             }
 
             _cts = new CancellationTokenSource();
+        }
+
+        private void RemoveItems()
+        {
+            foreach (var reward in _rewards)
+            {
+                Object.Destroy(reward.Key.gameObject);
+            }
+
+            _rewards.Clear();
         }
     }
 }
