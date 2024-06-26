@@ -443,6 +443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 622135995}
   _outlineTextHolder: {fileID: 1473704124}
+  _targetWheelRotation: 45
 --- !u!1 &69273940
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,6 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 1182386083}
   _outlineTextHolder: {fileID: 2078403180}
+  _targetWheelRotation: -15
 --- !u!1 &130985982
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 2058136524}
   _outlineTextHolder: {fileID: 1796006758}
+  _targetWheelRotation: -165
 --- !u!1 &213488927
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,6 +983,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 432082463}
   _outlineTextHolder: {fileID: 1591197885}
+  _targetWheelRotation: -135
 --- !u!1 &268218366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,6 +1170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 35680872}
   _outlineTextHolder: {fileID: 491617045}
+  _targetWheelRotation: 165
 --- !u!1 &323521412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,6 +1528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 2048678064}
   _outlineTextHolder: {fileID: 268218368}
+  _targetWheelRotation: -75
 --- !u!1 &403987587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,6 +1581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 130985984}
   _outlineTextHolder: {fileID: 421114228}
+  _targetWheelRotation: 75
 --- !u!1 &421114226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,6 +1902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 1807163783}
   _outlineTextHolder: {fileID: 1778765273}
+  _targetWheelRotation: 135
 --- !u!1 &491617043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,6 +2536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 955565988}
   _outlineTextHolder: {fileID: 1780310578}
+  _targetWheelRotation: 105
 --- !u!1 &866890705
 GameObject:
   m_ObjectHideFlags: 0
@@ -2557,8 +2566,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c54e29f3e7f47ce904d82a0088bbe40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wheelView: {fileID: 2114759793}
   _settings: {fileID: 11400000, guid: d83f30b949207064092e08ba12bde19b, type: 2}
+  _wheelView: {fileID: 2114759793}
   _buttonView: {fileID: 1904417137}
 --- !u!4 &866890707
 Transform:
@@ -2761,6 +2770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 1261538308}
   _outlineTextHolder: {fileID: 1399874788}
+  _targetWheelRotation: -105
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -4073,6 +4083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 643954460}
   _outlineTextHolder: {fileID: 377958581}
+  _targetWheelRotation: 15
 --- !u!1 &1778765271
 GameObject:
   m_ObjectHideFlags: 0
@@ -5538,6 +5549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHolder: {fileID: 25075072}
   _outlineTextHolder: {fileID: 162661953}
+  _targetWheelRotation: -45
 --- !u!1 &2114759789
 GameObject:
   m_ObjectHideFlags: 0
@@ -5564,7 +5576,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114759789}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.13052616, w: 0.9914449}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5582,7 +5594,7 @@ RectTransform:
   - {fileID: 2113146842}
   - {fileID: 97540079}
   m_Father: {fileID: 1323525465}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 15}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -59}
@@ -5639,6 +5651,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slotsContainer: {fileID: 2114759790}
+  _rotationContainer: {fileID: 2114759790}
+  _rewardImage: {fileID: 681789780}
 --- !u!1 &2142222895
 GameObject:
   m_ObjectHideFlags: 0

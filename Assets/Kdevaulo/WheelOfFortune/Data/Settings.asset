@@ -15,32 +15,29 @@ MonoBehaviour:
   <MinValue>k__BackingField: 5
   <MaxValue>k__BackingField: 100
   <Step>k__BackingField: 5
-  <GenerationsCount>k__BackingField: 9
   <CooldownTickTimes>k__BackingField: 10
   <GenerationDelayInSeconds>k__BackingField: 1
+  <Rewards>k__BackingField:
+  - Id: Ruby
+    Sprite: {fileID: 21300000, guid: d3827cd42f6dfb04b9e0bd4c85877c38, type: 3}
+  - Id: Coin
+    Sprite: {fileID: 21300000, guid: c59ee4dc1230f6545bd1b77508cbb209, type: 3}
+  - Id: Diamond
+    Sprite: {fileID: 21300000, guid: 6209ee68807706b48b44ada40d4de7af, type: 3}
   <RotationDurationInSeconds>k__BackingField: 5
   <MaxSpeed>k__BackingField: 1
-  <SpeedGraph>k__BackingField:
+  <AnimationCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 2.6037734
+      outSlope: 2.6037734
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.08347239
-      value: 0.6337657
-      inSlope: 1.0115454
-      outSlope: 1.0115454
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.16707864
-      outWeight: 0.33333334
+      outWeight: 0.041666668
     - serializedVersion: 3
       time: 1
       value: 1
@@ -53,3 +50,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  <RewardStopTimeInSeconds>k__BackingField: {x: 1, y: 2.5}
+  <RewardAppearTimeInSeconds>k__BackingField: 1
+  <RewardDisappearTimeInSeconds>k__BackingField: 1
+  <DelayAfterRewardInSeconds>k__BackingField: 2
