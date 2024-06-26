@@ -5,12 +5,22 @@
         private readonly ButtonView _view;
         private readonly Settings _settings;
 
+        private readonly IUserActionsProvider _actionsProvider;
+
         private int _ticksLeft;
 
-        public ButtonController(ButtonView view, Settings settings)
+        public ButtonController(ButtonView view, Settings settings, IUserActionsProvider actionsProvider)
         {
             _view = view;
             _settings = settings;
+            _actionsProvider = actionsProvider;
+
+            _actionsProvider.ButtonClicked += HandleButtonClick;
+        }
+
+        private void HandleButtonClick()
+        {
+            _view.DisableButton();
         }
 
         public void Initialize()

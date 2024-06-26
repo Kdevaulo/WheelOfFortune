@@ -15,8 +15,7 @@ namespace Kdevaulo.WheelOfFortune
 
         [field: Header("Rotation")]
         [field: SerializeField] public float RotationDurationInSeconds { get; private set; } = 5f;
-        [field: SerializeField] public int MaxSpeed { get; private set; }
-        [field: SerializeField] public AnimationCurve SpeedGraph { get; private set; }
+        [field: SerializeField] public AnimationCurve AnimationCurve { get; private set; }
 
         [field: Header("Reward")]
         [field: SerializeField] public Vector2 RewardStopTimeInSeconds { get; private set; } = new Vector2(1f, 2.5f);
