@@ -22,5 +22,10 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
         {
             return _targetWheelRotation;
         }
+
+        public Vector2 GetPosition()
+        {
+            return _textHolder.rectTransform.position;
+        }
     }
 }

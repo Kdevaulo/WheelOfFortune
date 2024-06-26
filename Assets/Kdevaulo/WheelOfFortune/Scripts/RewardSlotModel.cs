@@ -1,20 +1,21 @@
-﻿using Kdevaulo.WheelOfFortune.WheelGenerationBehaviour;
+﻿using Kdevaulo.WheelOfFortune.RewardChooseBehaviour;
+using Kdevaulo.WheelOfFortune.WheelGenerationBehaviour;
 
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Kdevaulo.WheelOfFortune
 {
-    public class RewardModel
+    public class RewardSlotModel
     {
         public int SlotsCount { get; private set; }
+        public Reward Reward { get; private set; }
 
         private SlotView[] _slotViews;
 
         private int[] _values;
 
-        private string _rewardId;
-
-        public RewardModel(WheelView view)
+        public RewardSlotModel(WheelView view)
         {
             _slotViews = view.GetSlotViews();
             SlotsCount = _slotViews.Length;
@@ -25,9 +26,9 @@ namespace Kdevaulo.WheelOfFortune
             _values = values;
         }
 
-        public void SetReward(string rewardId)
+        public void SetReward(Reward reward)
         {
-            _rewardId = rewardId;
+            Reward = reward;
         }
 
         public int GetRewardValue(int index)
@@ -40,6 +41,11 @@ namespace Kdevaulo.WheelOfFortune
         public float GetTargetRotation(int index)
         {
             return _slotViews[index].GetWheelRotation();
+        }
+
+        public Vector2 GetTargetPosition(int index)
+        {
+            return _slotViews[index].GetPosition();
         }
     }
 }

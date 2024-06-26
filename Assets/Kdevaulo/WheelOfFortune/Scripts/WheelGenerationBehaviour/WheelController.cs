@@ -8,7 +8,7 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
     {
         private readonly WheelView _view;
         private readonly NumbersGenerator _generator;
-        private readonly RewardModel _rewardModel;
+        private readonly RewardSlotModel _rewardSlotModel;
 
         private readonly Reward[] _rewards;
 
@@ -19,13 +19,13 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
 
         private string _lastRewardId = string.Empty;
 
-        public WheelController(WheelView view, Settings settings, RewardModel rewardModel)
+        public WheelController(WheelView view, Settings settings, RewardSlotModel rewardSlotModel)
         {
             _view = view;
-            _rewardModel = rewardModel;
+            _rewardSlotModel = rewardSlotModel;
             _generator = new NumbersGenerator();
 
-            _slotsCount = _rewardModel.SlotsCount;
+            _slotsCount = _rewardSlotModel.SlotsCount;
             _rewards = settings.Rewards;
             _maxGenerationIndex = settings.CooldownTickTimes;
 
@@ -49,7 +49,7 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
         private void SetValues()
         {
             int[] values = _generator.GenerateRandomValues(_slotsCount);
-            _rewardModel.SetValues(values);
+            _rewardSlotModel.SetValues(values);
             _view.SetValues(values);
         }
 
@@ -59,7 +59,7 @@ namespace Kdevaulo.WheelOfFortune.WheelGenerationBehaviour
             int index = Random.Range(0, targetRewards.Length);
             var targetReward = targetRewards[index];
 
-            _rewardModel.SetReward(targetReward.Id);
+            _rewardSlotModel.SetReward(targetReward);
             _lastRewardId = targetReward.Id;
             _view.SetRewardSprite(targetReward.Sprite);
         }

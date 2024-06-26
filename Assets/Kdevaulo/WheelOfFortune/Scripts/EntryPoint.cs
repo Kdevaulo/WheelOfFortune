@@ -23,7 +23,7 @@ namespace Kdevaulo.WheelOfFortune
 
         private void Awake()
         {
-            var rewardModel = new RewardModel(_wheelView);
+            var rewardModel = new RewardSlotModel(_wheelView);
             _timerController = new TimerController(_settings);
             _buttonController = new ButtonController(_buttonView, _settings, _buttonView);
             _wheelController = new WheelController(_wheelView, _settings, rewardModel);
